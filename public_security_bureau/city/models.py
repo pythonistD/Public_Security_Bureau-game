@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import psb_infrastructure
 
 
@@ -22,6 +23,7 @@ class Analyst(models.Model):
     analyst_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
     second_name = models.CharField(max_length=100)
+    fk_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         managed = False

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'public_security_bureau',
     'rest_framework.authtoken',
+    'djoser',
     'city.apps.CityConfig',
     'psb_infrastructure.apps.PsbInfrastructureConfig',
     'psb_personal.apps.PsbPersonalConfig',
