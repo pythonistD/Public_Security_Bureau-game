@@ -3,22 +3,6 @@ from django.contrib.auth.models import User
 import psb_infrastructure
 
 
-# class Analyst(models.Model):
-#     first_name = models.CharField(max_length=100)
-#     second_name = models.CharField(max_length=100)
-#
-#
-# class Citizen(models.Model):
-#     fk_analyst_id = models.ForeignKey(Analyst, on_delete=models.CASCADE)
-#     first_name = models.CharField(max_length=100)
-#     second_name = models.CharField(max_length=100)
-#     stamina = models.SmallIntegerField()
-#     intelligence = models.SmallIntegerField()
-#
-#     class Meta:
-#         constraints = [
-#             models.CheckConstraint(check=(models.Q(stamina__gte=0) & models.Q(stamina__lte=5)), name='stamina0-5')
-#         ]
 class Analyst(models.Model):
     analyst_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
@@ -51,10 +35,10 @@ class Location(models.Model):
 class Sybil(models.Model):
     sybil_id = models.AutoField(primary_key=True)
     fk_analyst = models.ForeignKey(Analyst, models.CASCADE)
-    day_counter = models.SmallIntegerField()
-    crimes_report = models.TextField(blank=True, null=True)
-    number_of_crimes = models.SmallIntegerField()
-    blackening_coefficient = models.FloatField(blank=True, null=True)
+    day_counter = models.SmallIntegerField(default=0)
+    crimes_report = models.TextField(blank=True, null=True, default='')
+    number_of_crimes = models.SmallIntegerField(default=0)
+    blackening_coefficient = models.FloatField(blank=True, null=True, default=1.0)
 
     class Meta:
         managed = False
@@ -76,8 +60,8 @@ class Citizen(models.Model):
 
 class PsychoPassport(models.Model):
     series = models.IntegerField()
-    number = models.IntegerField()
-    fk_citizen_id = models.OneToOneField(Citizen, unique=True, on_delete=models.CASCADE)
+    number = models.IntegerField(primary_key=True)
+    fk_citizen = models.OneToOneField(Citizen, unique=True, on_delete=models.CASCADE)
     crime_rate = models.SmallIntegerField()
 
     class Meta:
